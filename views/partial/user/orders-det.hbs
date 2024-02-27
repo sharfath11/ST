@@ -1,0 +1,64 @@
+
+<body>
+
+ 
+
+<section  >
+    <div class="container">
+        <div class="row mt-5">
+            
+
+        </div>
+        <table class="table mt-5">
+          
+  <thead>
+    <tr>
+      <th scope="col">NO</th>
+      <th scope="col">Date</th>
+      <th scope="col">Adress</th>
+      <th scope="col">Pincode</th>
+      <th scope="col">Mobil</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Payment</th>
+      <th scope="col">Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each orders}}
+    <tr>
+      <th scope="row">
+        <span class="create_index"></span>
+        
+      </th>
+      <td>{{this.date}}</td>
+      <td>{{this.deliveryDetails.adress }}</td>
+      <td>{{this.deliveryDetails.pincode}}</td>
+      <td>{{this.deliveryDetails.mobail}}</td>
+      <td>{{this.totalAmount}}</td>
+      
+      <td>{{this.PaymentMethod}}</td>
+      
+      <td>{{this.status}}</td>
+      <td>
+        <a href="/view-order/{{this._id}}" class="btn btn-primary">View Products</a>
+      </td>
+    </tr>
+    {{/each}}
+   
+  </tbody>
+</table>
+    </div>
+</section>
+
+</body>
+<script>
+    var divs = document.querySelectorAll('.create_index');
+    for (var i = 0; i < divs.length; ++i) {
+        divs[i].innerHTML = i + 1;
+    }
+</script>
+
+
+
+    

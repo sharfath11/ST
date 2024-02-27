@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/stylesheets/place.css">
+    <style> 
+#bd{
+  box-sizing: content-box;  
+  width: 300px;
+  height: 200px;
+  padding: 30px;  
+  border: 10px solid #495057;
+}
+</style>
+    
+</head>
+<body>
+  <div class="text-center mb-3 pb-2 mt-3">
+    <h4 style="color: #495057 ;">Delivery Details</h4>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <form action="" id="checkout-form"  style="margin: 17px;">
+
+          <h4><span>NAME</span></h4>
+          <input type="text" id="NAME" name="NAME" placeholder="NAME">
+          <h4><span>MOBAIL</span></h4>
+          <input type="text" id="MOBAIL" name="mobail" placeholder="MOBAIL NUMBER">
+          <h4><span>PIN CODE</span></h4>
+          <input type="text" id="PIN-CODE" name="pincode" placeholder="PIN CODE">
+          <input type="text" name="userId"  value="{{user._id}}" hidden>
+          <h4><span>ADRESS</span></h4>
+          <input type="text" id="ADRESS" name="adress" placeholder="ADRESS">
+          
+      </div>
+      <div class=" mt-4 ml-4" id="bd">
+             <h2> Tottal: {{this.total}}</h2>
+             <h4>Payment Method</h4>
+              <hr>
+             <h5> <input type="checkbox" name="payment-methode" value="COD"> COD </h5>
+                        
+             <h5> <input type="checkbox"  name="payment-methode" value="ONLINE"> ONLINE</h5>
+                        
+              <button  type="submit" class="btn btn-primary btn-rounded"
+                style="background-color: #19e645 ; margin-left: 165px;"  > checkout</button>          
+                     
+            </div>
+          </form>
+    </div>
+
+  </div>
+
+</body>
+</html>
+<script>
+  $("#checkout-form").submit((e)=>{
+     e.preventDefault()
+     $.ajax({
+      url:'/place-order',
+      method:'post',
+      data:$('#checkout-form').serialize(),
+      success:(response)=>{
+        alert(response)
+        if(response.codSuccess){
+          location.href='/order'
+        }
+        else{
+         razorpayPayment(response)
+        }
+      }
+      
+     })
+  })
+   
+
+   function razorpayPayment(order){
+        var options = {
+    "key": "rzp_test_P1mEPEP8EaETCN", // Enter the Key ID generated from the Dashboard
+    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "ST CART",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+        verifyPayment(response,order)
+    },
+    "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9999999999"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+rzp1.open();
+    }
+    function verifyPayment(payment,order){
+        $.ajax({
+            url:'/verify-payment',
+            data:{
+                payment,
+                order
+            },
+            method:'post',
+            success:(response)=>{
+                if(response.status){
+                    location.href='/order'
+                }else{
+                    alert("payment failed")
+                }
+            }
+        })
+    }
+</script>

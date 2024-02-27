@@ -1,0 +1,33 @@
+<body>
+  
+  
+  <link rel="stylesheet" href="/public/stylesheets/ord.css">
+  
+
+<div class="container py-7">
+  <h2 class="text-uppercase text-letter-spacing-xs my-0 text-dark font-weight-bold">
+    ST CART <i class="ion-ios-body pl-1 text-primary op-8 z-index-1"></i>
+  </h2>
+  {{#each products}}
+  <hr class="hr-primary w-15 hr-xl ml-0 mb-5">
+  <div class="row mb-5">
+    <div class="col-md-6 order-md-2">
+      <img src="/product-image/{{this.product._id}}.jpg" alt="Personal Trainer 1" class="img-fluid border-white border-w- 
+       5 w-50 w-md-80 w-lg-60 rounded-circle">
+    </div>
+    <div class="col-md-6 flex-valign text-md-right">
+      <h3 class="text-uppercase text-letter-spacing-xs mt-0 mb-1 text-dark font-weight-bold">
+        {{this.product.Name}}
+      </h3>
+      <h5 class="my-0 font-weight-normal">
+        <em>{{this.prodect.Catagory}}</em>
+      </h5>
+      <hr class="hr-primary w-70 ml-0 ml-md-auto mr-md-0 mb-3">
+      <p>{{this.product.Discription}}</p>
+      <p>Price : {{this.product.Price}}</p>
+      <a href="#join" data-toggle="scroll-link" class="text-sm font-weight-bold"><i class="fa fa-chevron-right text-xs text-pink"></i> Quantity: {{this.quantity}}</a>
+    </div>
+  </div>
+</div>
+{{/each}}
+</body>
